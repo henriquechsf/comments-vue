@@ -13,28 +13,8 @@
 </head>
 
 <body>
-    <div class="container">
-        <h1>Comentários</h1>
-        <hr>
-        <div class="form-comentarios form-group">
-            <p>
-                <input type="text" name="author" class="form-control" placeholder="Nome">
-            </p>
-            <p>
-                <textarea name="message" class="form-control" placeholder="Comentário"></textarea>
-            </p>
-            <button type="submit" class="btn btn-primary">Comentar</button>
-        </div>
+    <div id="app">
 
-        <div class="list-group">
-            <div class="list-group-item">
-                <span class="coment-author">Autor: <strong>Henrique</strong></span>
-                <p>Mensagem de teste</p>
-                <div>
-                    <a href="#" title="Excluir">Excluir</a>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -46,6 +26,56 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            template: `
+            <div class="container">
+                <h1>Comentários</h1>
+                <hr>
+                <div class="form-comentarios form-group">
+                    <p>
+                        <input v-model="name" type="text" name="author" class="form-control" placeholder="Nome">
+                    </p>
+                    <p>
+                        <textarea v-model="message" name="message" class="form-control" placeholder="Comentário"></textarea>
+                    </p>
+                    <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
+                </div>
+
+                <div class="list-group">
+                    <div class="list-group-item" v-for="comment in comments">
+                        <span class="coment-author">Autor: <strong>{{ comment.name }}</strong></span>
+                        <p>{{ comment.message }}</p>
+                        <div>
+                            <a href="#" title="Excluir">Excluir</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            data() {
+                return {
+                    comments: [{
+                        name: 'Henrique',
+                        message: 'Hello Vue'
+                    }],
+                    name: '',
+                    message: ''
+                }
+            },
+            methods: {
+                addComment() {
+                    console.log("Message")
+                    console.log(this.name)
+                    console.log(this.message)
+                }
+            }
+        })
+    </script>
+
 </body>
 
 </html>
