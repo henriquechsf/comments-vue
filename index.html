@@ -87,7 +87,7 @@
                     this.comments.splice(index)
                 }
             },
-            // valores com dados computados
+            // valores computados (lógica para a interface)
             computed: {
                 // retorna todos os comentários e retorna 'Anonimo' caso não tenha nome
                 allComments() {
@@ -95,6 +95,12 @@
                         ...comment,
                         name: comment.name.trim() === '' ? 'Anônimo' : comment.name
                     }))
+                }
+            },
+            // monitora alterações nas propriedades
+            watch: {
+                comments(val) {
+                    console.log('val', val)
                 }
             }
         })
