@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="list-group">
-                    <div class="list-group-item" v-for="(comment, index) in comments">
+                    <div class="list-group-item" v-for="(comment, index) in allComments">
                         <span class="coment-author">Autor: <strong>{{ comment.name }}</strong></span>
                         <p>{{ comment.message }}</p>
                         <div>
@@ -56,8 +56,8 @@
                 </div>
             </div>
             `,
+            // dados que podemos renderizar na tela {{  }}
             data() {
-                // dados que podemos renderizar na tela {{  }}
                 return {
                     comments: [],
                     // dados v-model
@@ -65,11 +65,12 @@
                     message: ''
                 }
             },
+            // metodos do componente
             methods: {
                 addComment() {
                     // validação de campo vazio
-                    if (this.name.trim() === '' || this.message.trim() === '') {
-                        alert('Complete os campos')
+                    if (this.message.trim() === '') {
+                        alert('Digite a mensagem!')
                         return
                     }
 
@@ -81,8 +82,19 @@
                     this.name = ''
                     this.message = ''
                 },
+
                 removeComment(index) {
                     this.comments.splice(index)
+                }
+            },
+            // valores com dados computados
+            computed: {
+                // retorna todos os comentários e retorna 'Anonimo' caso não tenha nome
+                allComments() {
+                    return this.comments.map(comment => ({
+                        ...comment,
+                        name: comment.name.trim() === '' ? 'Anônimo' : comment.name
+                    }))
                 }
             }
         })
