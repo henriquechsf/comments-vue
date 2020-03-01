@@ -46,31 +46,43 @@
                 </div>
 
                 <div class="list-group">
-                    <div class="list-group-item" v-for="comment in comments">
+                    <div class="list-group-item" v-for="(comment, index) in comments">
                         <span class="coment-author">Autor: <strong>{{ comment.name }}</strong></span>
                         <p>{{ comment.message }}</p>
                         <div>
-                            <a href="#" title="Excluir">Excluir</a>
+                            <a href="#" title="Excluir" v-on:click.prevent="removeComment(index)">Excluir</a>
                         </div>
                     </div>
                 </div>
             </div>
             `,
             data() {
+                // dados que podemos renderizar na tela {{  }}
                 return {
-                    comments: [{
-                        name: 'Henrique',
-                        message: 'Hello Vue'
-                    }],
+                    comments: [],
+                    // dados v-model
                     name: '',
                     message: ''
                 }
             },
             methods: {
                 addComment() {
-                    console.log("Message")
-                    console.log(this.name)
-                    console.log(this.message)
+                    // validação de campo vazio
+                    if (this.name.trim() === '' || this.message.trim() === '') {
+                        alert('Complete os campos')
+                        return
+                    }
+
+                    // adiciona os comentários no array comments em data()
+                    this.comments.push({
+                        name: this.name,
+                        message: this.message
+                    })
+                    this.name = ''
+                    this.message = ''
+                },
+                removeComment(index) {
+                    this.comments.splice(index)
                 }
             }
         })
