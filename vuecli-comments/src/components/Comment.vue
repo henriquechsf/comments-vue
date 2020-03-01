@@ -2,17 +2,14 @@
   <div class="container">
     <h1>Comentários</h1>
     <hr />
-    <div class="form-comentarios form-group">
-      <p>
-        <input v-model="name" type="text" name="author" class="form-control" placeholder="Nome" />
-      </p>
-      <p>
-        <textarea v-model="message" name="message" class="form-control" placeholder="Comentário"></textarea>
-      </p>
-      <button v-on:click="addComment" type="submit" class="btn btn-primary">Comentar</button>
-    </div>
+
+    <FormMessage v-on:add-message="addComment" />
 
     <div class="list-group">
+      <p v-if="comments.length <=0">
+        <strong>Sem comentários</strong>
+      </p>
+
       <div class="list-group-item" v-for="(comment, index) in allComments" v-bind:key="index">
         <span class="coment-author">
           Autor:
@@ -28,34 +25,23 @@
 </template>
 
 <script>
+import FormMessage from "./FormMessage";
+
 export default {
+  components: {
+    FormMessage
+  },
   // dados que podemos renderizar na tela {{  }}
   data() {
     return {
-      comments: [],
-      // dados v-model
-      name: "",
-      message: ""
+      comments: []
     };
   },
   // metodos do componente
   methods: {
-    addComment() {
-      // validação de campo vazio
-      if (this.message.trim() === "") {
-        alert("Digite a mensagem!");
-        return;
-      }
-
-      // adiciona os comentários no array comments em data()
-      this.comments.push({
-        name: this.name,
-        message: this.message
-      });
-      this.name = "";
-      this.message = "";
+    addComment(comment) {
+      this.comments.push(comment);
     },
-
     removeComment(index) {
       this.comments.splice(index);
     }
